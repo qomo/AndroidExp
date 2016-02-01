@@ -5,12 +5,12 @@
 ### 一个socket服务器例程 
 接受来自client的信息，并返回相应信息 
 ### runOnUiThread 
-在service class中刷新UI界面 
-{{{                socketServerExample.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        msg.setText(message);
-                    }
-                });
-}}}
+在service class中刷新UI界面  
+`socketServerExample.this.runOnUiThread(new Runnable() {
+    @Override
+    public void run() {
+        msg.setText(message);
+    }
+});
+`
 
