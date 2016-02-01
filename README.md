@@ -20,3 +20,12 @@ socketServerExample.this.runOnUiThread(new Runnable() {
 });
 </code></pre>
 
+### MultiDo&Multibarometer ==>> MultiThings
+
+这是一个想法，希望通过广播（多播）的方式给多个Android终端发送相同的命令，让多个终端执行同样的动作。
+
+MultiDo既是这个想法的命令发送者，它的原型是一个UDP多播发送者——UdpSendExample
+
+MultiBarometer既是这个想法的命令接收者，它的原型是一个UDP多播接收端——UdpReceiveExample
+
+
