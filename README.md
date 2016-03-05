@@ -32,3 +32,7 @@ MultiBarometer既是这个想法的命令接收者，它的原型是一个UDP多
 
 log输出demo
 
+
+## WifiConnect  
+
+WifiManagerExp 是一个简单的连接wifi网络的程序demo
