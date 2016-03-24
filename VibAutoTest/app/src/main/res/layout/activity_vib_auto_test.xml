@@ -98,12 +98,12 @@
                 android:id="@+id/tv_acc_mean_z" />
         </LinearLayout>
 
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test Switch"
-            android:id="@+id/sw_test"
-            android:layout_marginTop="40dp" />
+        <!--<Switch-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Test Switch"-->
+            <!--android:id="@+id/sw_test"-->
+            <!--android:layout_marginTop="40dp" />-->
 
         <LinearLayout
             android:orientation="horizontal"

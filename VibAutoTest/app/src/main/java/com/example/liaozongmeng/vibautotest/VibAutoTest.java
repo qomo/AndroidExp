@@ -11,8 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -22,11 +22,15 @@ public class VibAutoTest extends Activity {
     static final String TAG = "VibAutoTest";
     Switch sw_test = null;
     Intent intent_testservice = null;
+    Intent intent_cmd = null;
+    Intent intent_wifi = null;
     private MsgReceiver msg_receiver = null;
 
     private Vibrator mVibrator = null;
 
-    private long vib_test_time = 5000;
+    public static long vib_test_time = 5000;
+
+    private Button bt_vib_test = null;
 
 
     public class MsgReceiver extends BroadcastReceiver {
@@ -54,6 +58,13 @@ public class VibAutoTest extends Activity {
                 float vib_mean_z = intent.getFloatExtra("vib_mean_z", 0);
                 TextView tv_acc_mean_z = (TextView) findViewById(R.id.tv_acc_mean_z);
                 tv_acc_mean_z.setText(String.valueOf(vib_mean_z));
+            }else if(action.equals("VIB_TEST")) {
+                bt_vib_test.callOnClick();
+            }else if(action.equals("SET_VIB_PARAS")) {
+                EditText et_avr_timg = (EditText) findViewById(R.id.et_avr_time);
+                et_avr_timg.setText(String.valueOf(intent.getIntExtra("AVR_TIME", 5000)));
+                EditText et_num_calc = (EditText) findViewById(R.id.et_num_calc);
+                et_num_calc.setText(String.valueOf(intent.getIntExtra("AVR_COUNT", 10)));
             }
         }
     }
@@ -64,34 +75,43 @@ public class VibAutoTest extends Activity {
         Log.d(TAG, "onCreate()");
         setContentView(R.layout.activity_vib_auto_test);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        intent_cmd = new Intent(this, SocketCMDService.class);
+        startService(intent_cmd);
+        intent_wifi = new Intent(this, WifiToolService.class);
+        startService(intent_wifi);
 
         msg_receiver = new MsgReceiver();
         IntentFilter intent_filter = new IntentFilter();
         intent_filter.addAction("UPDATE_VIBRATION");
         intent_filter.addAction("UPDATE_VIBRATION_MEAN");
+        intent_filter.addAction("VIB_TEST");
+        intent_filter.addAction("SET_VIB_PARAS");
         registerReceiver(msg_receiver, intent_filter);
 
         intent_testservice = new Intent(this, TestService.class);
 
-        sw_test = (Switch) findViewById(R.id.sw_test);
-        sw_test.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    Log.d(TAG, "startService()");
-                    System.out.println("startService()");
-                    startService(intent_testservice);
-                    mVibrator.vibrate(new long[] {0, 5000}, 0);
-                } else {
-                    Log.d(TAG, "stopService()");
-                    stopService(intent_testservice);
-                    mVibrator.cancel();
-                }
-            }
-        });
+//        sw_test = (Switch) findViewById(R.id.sw_test);
+//        sw_test.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//                    Log.d(TAG, "startService()");
+//                    System.out.println("startService()");
+//                    startService(intent_testservice);
+//                    mVibrator.vibrate(new long[] {0, 5000}, 0);
+//                } else {
+//                    Log.d(TAG, "stopService()");
+//                    stopService(intent_testservice);
+//                    mVibrator.cancel();
+//                }
+//            }
+//        });
 
-        Button bt_vib_test = (Button) findViewById(R.id.bt_vib_test);
+        bt_vib_test = (Button) findViewById(R.id.bt_vib_test);
         bt_vib_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +128,8 @@ public class VibAutoTest extends Activity {
     public void onDestroy(){
         super.onDestroy();
         unregisterReceiver(msg_receiver);
+        stopService(intent_cmd);
+        stopService(intent_wifi);
     }
 
 
@@ -138,11 +160,13 @@ public class VibAutoTest extends Activity {
         new Thread(new Runnable(){
             public void run(){
                 try {
+                    mVibrator.vibrate(vib_test_time+2000);
                     Thread.sleep(1000);
-                    mVibrator.vibrate(vib_test_time);
                     startService(intent_testservice);
                     Thread.sleep(vib_test_time);
                     stopService(intent_testservice);
+                    Thread.sleep(100);
+                    mVibrator.cancel();
                     Intent intent = new Intent("UPDATE_VIBRATION_MEAN");
                     intent.putExtra("vib_mean_x", TestService.get_acc_mean_x());
                     intent.putExtra("vib_mean_y", TestService.get_acc_mean_y());
