@@ -125,6 +125,17 @@ public class SocketCMDService extends Service {
                         return_json.put("VIB_TEST_RESULT_Y", TestService.get_acc_mean_y());
                         return_json.put("VIB_TEST_RESULT_Z", TestService.get_acc_mean_z());
                         printStream.println(return_json);
+                    } else if (cmd.equals("TEST_NO_VIB")) {
+                        Thread.sleep(1000);
+                        startService(VibAutoTest.intent_testservice);
+                        Thread.sleep(VibAutoTest.vib_test_time);
+                        stopService(VibAutoTest.intent_testservice);
+                        Thread.sleep(2000);
+                        JSONObject return_json = new JSONObject();
+                        return_json.put("VIB_TEST_RESULT_X", TestService.get_acc_mean_x());
+                        return_json.put("VIB_TEST_RESULT_Y", TestService.get_acc_mean_y());
+                        return_json.put("VIB_TEST_RESULT_Z", TestService.get_acc_mean_z());
+                        printStream.println(return_json);
                     } else if (cmd.equals("CONNECT_WIFI")) {
                         String ssid = jsonObject.getString("SSID");
                         String key = jsonObject.getString("KEY");

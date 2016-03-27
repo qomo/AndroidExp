@@ -11,7 +11,7 @@ import android.os.IBinder;
 public class TestService extends Service implements SensorEventListener {
     final private static String TAG = "VibAutoTest --->> TestService";
 
-    private static int queue_num = 10;
+    private static int queue_num = 30;
     private FloatQueue floatQueue_x = null;
     private FloatQueue floatQueue_y = null;
     private FloatQueue floatQueue_z = null;

@@ -21,14 +21,14 @@ import android.widget.TextView;
 public class VibAutoTest extends Activity {
     static final String TAG = "VibAutoTest";
     Switch sw_test = null;
-    Intent intent_testservice = null;
+    public static Intent intent_testservice = null;
     Intent intent_cmd = null;
     Intent intent_wifi = null;
     private MsgReceiver msg_receiver = null;
 
     private Vibrator mVibrator = null;
 
-    public static long vib_test_time = 5000;
+    public static long vib_test_time = 4000;
 
     private Button bt_vib_test = null;
 
@@ -62,9 +62,9 @@ public class VibAutoTest extends Activity {
                 bt_vib_test.callOnClick();
             }else if(action.equals("SET_VIB_PARAS")) {
                 EditText et_avr_timg = (EditText) findViewById(R.id.et_avr_time);
-                et_avr_timg.setText(String.valueOf(intent.getIntExtra("AVR_TIME", 5000)));
+                et_avr_timg.setText(String.valueOf(intent.getIntExtra("AVR_TIME", 4000)));
                 EditText et_num_calc = (EditText) findViewById(R.id.et_num_calc);
-                et_num_calc.setText(String.valueOf(intent.getIntExtra("AVR_COUNT", 10)));
+                et_num_calc.setText(String.valueOf(intent.getIntExtra("AVR_COUNT", 30)));
             }
         }
     }

@@ -117,7 +117,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5000"
+                android:text="4000"
                 android:id="@+id/et_avr_time" />
         </LinearLayout>
 
@@ -133,7 +133,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
+                android:text="30"
                 android:id="@+id/et_num_calc" />
         </LinearLayout>
 
