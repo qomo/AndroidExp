@@ -16,7 +16,8 @@ public class TestService extends Service implements SensorEventListener {
     private FloatQueue floatQueue_y = null;
     private FloatQueue floatQueue_z = null;
 
-    private static int count = 0;
+    private static int count_base = 0;
+    private static int count_avr = 0;
     private static float acc_mean_x = 0;
     private static float acc_mean_y = 0;
     private static float acc_mean_z = 0;
@@ -32,15 +33,15 @@ public class TestService extends Service implements SensorEventListener {
     }
 
     public static float get_acc_mean_x() {
-        return acc_mean_x/count;
+        return acc_mean_x/count_avr;
     }
 
     public static float get_acc_mean_y() {
-        return acc_mean_y/count;
+        return acc_mean_y/count_avr;
     }
 
     public static float get_acc_mean_z() {
-        return acc_mean_z/count;
+        return acc_mean_z/count_avr;
     }
 
     public static void set_queue_num(int n) {
@@ -49,7 +50,8 @@ public class TestService extends Service implements SensorEventListener {
 
     @Override
     public void onCreate() {
-        count = 0;
+        count_base = 0;
+        count_avr = 0;
         acc_mean_x = 0;
         acc_mean_y = 0;
         acc_mean_z = 0;
@@ -76,6 +78,7 @@ public class TestService extends Service implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        count_base ++;
         float acc_x = event.values[0];
         float acc_y = event.values[1];
         float acc_z = event.values[2];
@@ -88,10 +91,12 @@ public class TestService extends Service implements SensorEventListener {
         intent.putExtra("vib_z", floatQueue_z.maxDiff());
         sendBroadcast(intent);
 
-        acc_mean_x += floatQueue_x.maxDiff();
-        acc_mean_y += floatQueue_y.maxDiff();
-        acc_mean_z += floatQueue_z.maxDiff();
-        count += 1;
+        if (count_base > queue_num){
+            acc_mean_x += floatQueue_x.maxDiff();
+            acc_mean_y += floatQueue_y.maxDiff();
+            acc_mean_z += floatQueue_z.maxDiff();
+            count_avr += 1;
+        }
     }
 
     @Override

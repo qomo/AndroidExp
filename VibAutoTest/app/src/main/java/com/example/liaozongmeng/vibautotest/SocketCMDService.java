@@ -135,6 +135,11 @@ public class SocketCMDService extends Service {
                         return_json.put("VIB_TEST_RESULT_X", TestService.get_acc_mean_x());
                         return_json.put("VIB_TEST_RESULT_Y", TestService.get_acc_mean_y());
                         return_json.put("VIB_TEST_RESULT_Z", TestService.get_acc_mean_z());
+                        Intent intent = new Intent("UPDATE_VIBRATION_MEAN");
+                        intent.putExtra("vib_mean_x", TestService.get_acc_mean_x());
+                        intent.putExtra("vib_mean_y", TestService.get_acc_mean_y());
+                        intent.putExtra("vib_mean_z", TestService.get_acc_mean_z());
+                        sendBroadcast(intent);
                         printStream.println(return_json);
                     } else if (cmd.equals("CONNECT_WIFI")) {
                         String ssid = jsonObject.getString("SSID");
