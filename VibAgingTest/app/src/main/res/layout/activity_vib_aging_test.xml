@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".VibAgingTest">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentStart="true">
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HW Vib Mode"
+            android:id="@+id/hw_vib_mode_sw"
+            android:layout_alignParentStart="true" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A Vib Mode"
+            android:id="@+id/a_vib_mode_sw"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/hw_vib_mode_sw"
+            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/hw_vib_mode_sw" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2s On/2s Off"
+            android:id="@+id/vib_2s_mode_sw"
+            android:layout_below="@+id/a_vib_mode_sw"
+            android:layout_marginTop="40dp"
+            android:layout_alignEnd="@+id/a_vib_mode_sw"
+            android:layout_alignParentStart="true" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Always on"
+            android:id="@+id/vib_always_sw"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="40dp"
+            android:layout_alignEnd="@+id/vib_2s_mode_sw" />
+
+        </LinearLayout>
+
+</RelativeLayout>
